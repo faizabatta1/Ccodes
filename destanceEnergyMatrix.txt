@@ -1,0 +1,94 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <iomanip>
+
+using namespace std;
+
+
+double getMaxenergy(vector<vector<int>> const& M, int cur_r, int cur_c)
+{
+    double d, d1;
+    double distance;
+    int x1, x2, y1, y2, x, y;
+    x = cur_r - 1;
+    y = cur_c - 1;
+    double energy = 0;
+
+    if (cur_r == 0 && cur_c == 0) {
+        energy = M[cur_r][2];
+        return energy;
+    }
+
+
+    x1 = M[cur_r][0];
+    x2 = M[x][0];
+    y1 = M[cur_r][1];
+    y2 = M[y][1];
+    d = x1 - x2;
+    d1 = y1 - y2;
+    distance = sqrt((d * d) + (d1 * d1));
+    energy = energy + M[cur_r][2] - distance;
+    return  getMaxenergy(M, x, y) + energy;
+}
+
+
+
+
+int main()
+{
+    
+    double d, d1;
+    double distance;
+    int x1, x2, y1, y2;
+  
+    double energy = 0;
+
+    int N;
+    cin >> N;
+    double Table[3][3];
+
+   vector< vector<int>> M(N, vector<int>(N));
+    for (int i = 0; i < N; i++) {
+        for (int y = 0; y < N; y++) {
+            cin >> M[i][y];
+
+        }
+
+
+   }
+    for (int i = 0; i < N; i++) {
+        for (int y = 0; y < N; y++) {
+            if (i == y)Table[i][y] = 0.0;
+            if (i > y)Table[i][y] = 0.0;
+            if(i==0&&y==0)Table[i][y] = 2.0;
+            if (i < y) {
+                x1 = M[i][0];
+                x2 = M[y][0];
+                y1 = M[i][1];
+                y2 = M[y][1];
+                d = x1 - x2;
+                d1 = y1 - y2;
+                distance = sqrt((d * d) + (d1 * d1));
+                energy = energy + M[y][2] - distance;
+                Table[i][y] = energy;
+            }
+
+        }
+    }
+
+    cout << fixed << setprecision(4) << getMaxenergy(M, 2, 2);
+
+    return 0;
+}
+ vector<vector<int>>  M =
+    {
+        { 1, 3, 4 },
+        { 2, 5, 1},
+        { 20, 10, 1 },
+        { 8, 4, 5 },
+        { 6, 8, 3 },
+        { 3, 3, 3 }
+    };
